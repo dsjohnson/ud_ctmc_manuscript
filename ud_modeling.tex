@@ -1,0 +1,448 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,epsfig,rotfloat,psfrag,natbib,url,graphicx,lineno}
+\usepackage{authblk}
+\usepackage{xcolor}
+
+%%%%
+% Some shortcut notation
+%%%%
+\newcommand{\by}{\ensuremath{\mathbf{y}}}
+\newcommand{\bn}{\ensuremath{\mathbf{n}}}
+\newcommand{\bx}{\ensuremath{\mathbf{x}}}
+\newcommand{\bz}{\ensuremath{\mathbf{z}}}
+\newcommand{\bX}{\ensuremath{\mathbf{X}}}
+\newcommand{\bC}{\ensuremath{\mathbf{C}}}
+\newcommand{\bW}{\ensuremath{\mathbf{W}}}
+\newcommand{\bK}{\ensuremath{\mathbf{K}}}
+\newcommand{\bk}{\ensuremath{\mathbf{k}}}
+\newcommand{\bI}{\ensuremath{\mathbf{I}}}
+\newcommand{\bH}{\ensuremath{\mathbf{H}}}
+\newcommand{\bh}{\ensuremath{\mathbf{h}}}
+\newcommand{\bw}{\ensuremath{\mathbf{w}}}
+\newcommand{\bD}{\ensuremath{\mathbf{D}}}
+\newcommand{\bM}{\ensuremath{\mathbf{M}}}
+\newcommand{\bR}{\ensuremath{\mathbf{R}}}
+\newcommand{\bQ}{\ensuremath{\mathbf{Q}}}
+\newcommand{\bu}{\ensuremath{\mathbf{u}}}
+\newcommand{\bs}{\ensuremath{\mathbf{s}}}
+
+\newcommand{\bb}{\ensuremath{\boldsymbol{\beta}}}
+\newcommand{\bg}{\ensuremath{\boldsymbol{\gamma}}}
+\newcommand{\ba}{\ensuremath{\boldsymbol{\alpha}}}
+\newcommand{\be}{\ensuremath{\boldsymbol{\epsilon}}}
+\newcommand{\bSig}{\ensuremath{\boldsymbol{\Sigma}}}
+\newcommand{\bmu}{\ensuremath{\boldsymbol{\mu}}}
+\newcommand{\bd}{\ensuremath{\boldsymbol{\delta}}}
+\newcommand{\bO}{\ensuremath{\boldsymbol{\Omega}}}
+\newcommand{\bsig}{\ensuremath{\boldsymbol{\sigma}}}
+\newcommand{\bo}{\ensuremath{\boldsymbol{\omega}}}
+\newcommand{\bre}{\ensuremath{\boldsymbol{\eta}}}
+\newcommand{\bPsi}{\ensuremath{\boldsymbol{\Psi}}}
+\newcommand{\btau}{\ensuremath{\boldsymbol{\tau}}}
+\newcommand{\bt}{\ensuremath{\boldsymbol{\theta}}}
+\newcommand{\bpi}{\ensuremath{\boldsymbol{\pi}}}
+
+%mathcal
+\newcommand{\fN}{\ensuremath{\mathcal{N}}}
+\newcommand{\fG}{\ensuremath{\mathcal{G}}}
+\newcommand{\fP}{\ensuremath{\mathcal{P}}}
+\newcommand{\fH}{\ensuremath{\mathcal{H}}}
+\newcommand{\fS}{\ensuremath{\mathcal{S}}}
+\newcommand{\fC}{\ensuremath{\mathcal{C}}}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\bibliographystyle{apalike}
+
+\raggedright
+
+\begin{document}
+%\vspace*{0.15\textheight}
+
+\vspace*{1.25in}
+
+%\begin{center}
+\setlength{\parindent}{0pt}
+\renewcommand{\baselinestretch}{1.8}\normalsize
+
+{\Large \bf Modeling Animal Utilization Distributions with Continuous-Time Markov Chains}
+
+
+\renewcommand{\baselinestretch}{1.15}\normalsize 
+\bigskip\bigskip\bigskip
+
+{Devin S. Johnson}$^{1,}$\footnote{Corresponding author: {\tt devin.johnson@noaa.gov}}, Michaela A. Kratofil$^{2,3}$, Janelle J. Badger$^1$, Robin W. Baird$^2$, and \\ Amanda L. Bradford$^1$ \bigskip
+
+$^1$Pacific Islands Fisheries Science Center, National Marine Fisheries Service, NOAA, Honolulu, Hawaii, USA 
+
+$^2$Cascadia Research Collective, Olympia, Washington, USA
+
+$^3$Marine Mammal Institute, Department of Fisheries, Wildlife, and Conservation Sciences, Oregon State University, Newport, Oregon, USA
+
+\bigskip
+
+\today
+
+%\end{center}
+
+%\vspace*{0.15\textheight}
+\vspace*{\fill}
+
+\clearpage
+
+
+
+
+%\renewcommand{\baselinestretch}{1.15}\normalsize
+\linenumbers
+
+%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace*{0.25\textheight}
+\begin{center}
+\begin{minipage}{0.65\paperwidth}
+\renewcommand{\baselinestretch}{1}\normalsize
+
+\centerline{\bf Abstract} 
+This happens last. \bigskip
+
+{\bf Key words}: Some, Key, words, Go, Here
+\end{minipage}
+\end{center}
+
+\clearpage
+
+
+\renewcommand{\baselinestretch}{1.5}\normalsize
+\raggedright
+\setlength{\parindent}{2em}
+\raggedbottom
+\linenumbers
+
+
+\section{Introduction}
+
+It is well known in the ecological literature that animal telemetry has become a ubiquitous and important tool in the advancement of animal ecology. A perennial subject within animal movement analysis is the assessment of space-use by studied subjects. The topic of animal space-use is often used synonymously with the terms home range, resource selection, or utilization distribution. Here we are specifically concerned with the concept of a {\it utilization distribution} (UD) as defined by \cite{powell2012home}, a probability distribution that describes an animal's location at any random time. Specifically, we consider a special case of the continuous-time semi-Markov model of \cite{Johnson353516} which has a closed-form limiting distribution which represents the long run space use of the animal.
+
+The literature on UDs is generally divided into two types of UDs depending on how there are estimated. The first type is what we term {\it empirical} UDs. Empirical UDs are constructed based on a description of the observed locations, for example, the traditional kernel density (see \citealt{Keating:2009hl}) or Brownian bridge estimators \citep{Horne:2007mw} of UDs are empirical in that they place positive mass over observed locations. If an animal does not visit an area there will be very little if any use estimated for that area. If the animal truly does not use or select that spatial area, then this is an accurate assessment. However, absence of use may be a symptom of {\it start bias} \citep{whitehead2013inferring}. Start bias results from tag deployments that are not long enough for the animal to fully explore the space and habitat available to it over the course of study. Therefore, spatial use assessments based solely on the observed locations can be biased towards the release location of the animal. This is especially true in recent years where many locations can be obtained over a fine time-scale and thus produce highly autocorrelated locations. To match the increased technological sophistication of location devices, statistical methodology of empirical UD methods have increased to account for the high autocorrelation (e.g., \citealt{fleming2015rigorous, calabrese2016ctmm}). However, the most basic solution to reduce start bias is to increase deployment length  \citep{Fieberg:2010fk}. This basic solution motivates the next type of UD, the {\it predictive} UDs.
+
+Predictive UDs are heuristically what a kernel estimate would look like if the animal was allowed to move through its habitat for a very long (infinite, actually) time. In essence a movement model is fitted to the location data and the location of the animal is predicted from the movement model a very long time after the last observation. If it exists, this is the stationary or limiting distribution of the movement process. For movement processes with a limiting distribution, after a long time, the distribution of the prediction will become independent of the starting location, thus, removing the start bias \citep{whitehead2013inferring}. \cite{moorcroft1999home} present an early example a predictive UD approach modeling home rage of coyotes ({\it Canis latrans}) using a movement model which included a response to scent marks. Following this, \cite{Barnett:2008wj} described some general results concerting the weighted distribution form \cite{Johnson:2008kx, Johnson:2013fk} of a resource selection movement model in discrete time. Assuming a symmetric movement kernel, they show that the limiting distribution is proportional to the resource selection function or the square of the resource selection function depending on how large the movement kernel is relative to the spatial variation of the resource selection function. 
+
+
+
+demonstrated use of a limiting distribution of a mechanistic movement model for calculating a UD. This was followed by \cite{whitehead2013inferring}
+
+For Markov processes
+
+
+%\cite{wilsonestimating}
+%
+%\cite{hanks2016flexible}
+%
+%\cite{Hanks:2015aa}
+%
+%\cite{Johnson353516}
+%
+%\cite{whitehead2013inferring}
+%
+%\cite{michelot2018linking}
+%
+%\cite{hooten:2017aa}
+%
+%\cite{fleming2015rigorous}
+%
+%\cite{kie2010home}
+%
+%\cite{calabrese2016ctmm}
+%
+%\cite{moorcroft1999home}
+%
+%\cite{Barnett:2008wj}
+
+
+\section{Continuous-Time Markov Movement Models}
+
+Here we provide a brief description of continuous-time Markov chain (CTMC) models. More detail can be found in \citet{norris1998markov}, \cite{Johnson353516}, or \cite{Hanks:2015aa}. In a CTMC movement model the geographical study domain is partitioned into a cells indexed by $\fC = \{1,\dots,n\}$. Each cell, $i$, has a set of neighboring cells $\fC_i = \{j\in \fC: i \sim j\}$, where $i\sim j$ means that an animal can go from cell $i$ to cell $j$ in one move. For example, neighboring cells might share a border in a raster partition. Here we assume that if $i\sim j$, then $j\sim i$, that is, movement is symmetric between cells. As with all CTMCs, the complete path of the animal, $P$, can be decomposed into the {\it jump times} at which cell transitions are made, $\btau = \{\tau_0,\tau_1,\dots,\tau_M, \tau_{M+1}\}$, and the {\it embedded Markov chain}, which is the sequence of discrete-space cells visited, $\fG = \{g_0,\dots,g_M\}$. Thus, the CTMC path has the bivariate discrete-time representation $P=\{(\tau_m, g_m):m=0,\dots,M\}$, where $\tau_0 = 0$, $\tau_{M} = T$ is the known end of the telemetry deployment, and $g_0$ is the starting cell. In a slight abuse of notation, we also use $g_t$ and $\fC_t$ (i.e., indexed by continuous time, $t$) to represent the location and neighborhood of the animal for any time in $[0,T]$, that is, $g_t = g_m$ and $\fC_t = \fC_{g_m}$ for $t \in [\tau_m, \tau_{m+1})$. It is apparent which context is being used in a particular situation.
+
+The CTMC model is based on the conditional movement rates between cells,
+\begin{equation}
+\lambda_{ij} = \lim_{h \to 0} [g_{t+h}=j|g_t = i]/h,
+\end{equation}
+where $[g_{t+h}=j|g_t=i]$ is the probability that $g_{t+h} = j$ given the animal is in cell $i$ at time $t$.
+We use the notation `$[A|B]$' to represent the probability density (distribution) function of $A$ given $B$. The total rate of movement away from cell $i$ is 
+\begin{equation}
+\label{eq:total.haz}
+\Lambda_i = \sum_{j\in\fC_i} \lambda_{ij}.
+\end{equation}
+One other useful property of CTMCs is that the residence time in a cell, $r_m = \tau_{m+1}-\tau_{m}$, is conditionally distributed,
+\[
+[r_m|g_m=i] = \text{Exponential}(r_m|\Lambda_i).
+\]
+Thus the expected residence time in cell $i$ is $\Lambda_i^{-1}$. 
+
+If we put all the rates in the $n \times n$ matrix $\bQ$ with $(-\Lambda_1,\dots,-\Lambda_n)$ on the diagonal and $\lambda_{ij}$ in the $i$th row, $j$th column. Then the conditional distribution is evaluated with 
+\[
+\bu_i(h) = [g_{t+h} | g_t=i] = \mathbf{1}_i' \text{expm}\left(\bQ h\right),
+\] 
+where $\mathbf{1}_i$ is a vector of zeros with a 1 in the $i$th position and ``expm'' is the matrix exponential function. If a limiting distribution exists, as $h \to \infty$, $\bu_i(h) \to \bu$ regardless of what cell the animal is in currently. The conditions under which a CTMC will have a long-run limiting distribution over the study area are outlined by \cite{wilsonestimating}. These conditions are
+\begin{enumerate}
+\item {\it Homogeneity}.-- The movement rate function remains constant through time. 
+\item {\it Irreducibility}.-- Any cell can be reached from any other cell given sufficient time. In practice, that the study are is not separated into multiple areas by impenetrable barriers.
+\item {\it Positive recurrence}.-- After an animal leaves a cell the amount of time it takes for the animal to visit that cell again is finite.
+\end{enumerate}
+\citet{wilsonestimating} use numerical Eigen decomposition of $\bQ$ to obtain $\bu$, but they also present an addtional, well known, CTMC result that we use. Assuming the previous conditions are met for a CTMC (in fact, {\it semi}-Markov) model, the limiting distribution elements can be evaluated as 
+\begin{equation}
+\label{eq:embed.u}
+u_i \propto \alpha_i / \Lambda_i
+\end{equation}
+where $\ba$ is the limiting distribution of the embedded Markov chain, $\{g_0,g_1,\dots\}$. This makes intuitive sense that the long-run probability of occurrence is the long-run probability the animal is in the cell weighted by the expected amount of time it spends there. 
+
+\section{Explicit Utilization Distribution Models}
+
+Now that we have a background CTMC we can turn to modeling utilization distributions (UDs) directly. Here we assume the UD has the exponential form for the $i$th element of $\bu$,
+\[
+u_i \propto \exp(v_i),
+\] 
+where, typically, $v_i = \bx_i'\bb$ and $\bx_i$ is a vector of habitat variables for the $i$th cell. However, we do not necessarily need to restrict ourselves to that linear form now. In the next two section we explore two different approaches. The first involves developing a CTMC movement model such that the resulting limiting distribution will have the desired UD form. The second approach is to approximate a continuous-space diffusion model that has a known limiting distribution of the desired form (e.g., \citealt{xxx})
+
+
+\subsection{Exact UD modeling}
+
+In this section we develop a CTMC movement model that has the desired closed form UD as the limiting distribution. We use Markov Chain Monte Carlo (MCMC) theoretical results ({\it sensu} \citealt{michelot2018linking}) to show that the limiting distribution does, indeed, have the desired exponential form. 
+
+The CTMC movement model we consider here has the form  
+\begin{equation}
+\label{eq:rate}
+\log(\lambda_{ij}) = \beta_0 + a_i + b_j + c_{ij},
+\end{equation}
+where 
+\begin{itemize}
+\item $\beta_0$ is a base rate of movement,
+\item $a_i$ controls residency time when the animal is in cell $i$
+\item $b_j$ controls movement to cell $j$ from any cell in $\fC_j$, and
+\item $c_{ij}$ controls movement specifically from cell $i$ to cell $j$.
+\end{itemize}
+Of course, each of the terms can be functions of spatial covariates. If the neighbor-specific terms are symmetric, that is, $c_{ij} = c_{ji}$, then we use the embedded chain result (\ref{eq:embed.u}) and MCMC theory to show (Appendix A) the limiting distribution is,
+\[
+u_i \propto \exp(b_i - a_i),
+\]
+which has the desired form. Moreover if $a_i = \bx_{ai}'\bb_a$ and $b_i = \bx_{bi}'\bb_b$, then $u_i$ has the form
+\[
+u_i \propto  \exp(\bx_i' \bb),
+\] 
+where $\bx_i' = (\bx_{bi}',\bx_{ai}')'$ and $\bb = (\bb_b, -\bb_a)$. This is the discrete-space equivalent of the continuous-space predictive UD given by \cite{Barnett:2008wj}. 
+
+\subsection{CTMC approximation of diffusion movement models}
+
+Here we form our model based on a continuous-space diffusion model. Under this approach, the set of discrete cells approximates a continuous spatial area (most likely the true situation). The model we consider is defined by the 2d stochastic differential equation 
+\[
+d\bs_t = \bmu(\bs_t)dt + \sigma(\bs_t)d\mathbf{w}_t
+\]
+where $\bs_t$ is the location at time $t$, $\bmu$ is the drift (advection) function, $\sigma$ is the diffusion coefficient function, and $\bw_t$ is a standard Brownian motion. An common example for animal movement modeling is the Langevin diffusion \citep{michelot2018langevin}, which is obtained by setting $\sigma(\bs) = \sigma$ and $\bmu(\bs) = \nabla \log v(\bs)$, where $v(\bs)$ is a potential function \citep{xxx} and $\nabla = (\partial/\partial x, \partial/\partial y)$ is the gradient operator. The limiting distribution of this specification of the Langevin diffusion is 
+\[
+u(\bs) \propto \exp(2v(\bs)/\sigma^2)
+\] 
+\citep{xxx}.
+
+If we start with the UD model of the form $u(\bs) \propto \exp(\bx(\bs)'\bb)$ then the drift function that will produce the desired UD (outside of scaling by $2/\sigma$) is 
+\[
+\bmu(\bs) = \sum \beta_j \nabla x_j(\bs)
+\]
+To fit this model to collected telemetry data \citep{michelot2018langevin} use a time discretization approximation along with and stochastic imputation process \citep{xxx} to account for gaps in the location record , as well as, location uncertainty. 
+
+As an alternative to time discretization, we can use a continuous-time, discrete-space approximation. This is accomplished by approximating the SDE process $\bs_t$ with a CTMC process, $\by_t$. The state-space for $\by_t$ is a uniform grid of locations $\fC = \{\tilde{\bs}_1,\dots,\tilde{\bs}_n\}$ in the study area where $||\tilde{\bs}_i-\tilde{\bs}_j|| = h$ for any neighboring locations. Either a raster or hex grid will work. A general result for this type of approximation is that as $h \to 0$, $\by_t$ is asymptotically equivalent to $\bs_t$ if the following conditions hold for elements of the CTMC rate transition matrix
+\begin{enumerate}
+\item $\sum_{j\ne i} \lambda_{ij} h \be_{ij} = \bmu_i + o(h)$
+\item $\sum_{j\ne i} \lambda_{ij} h^2 \be_{ij}\be_{ij}' = \sigma^2\mathbf{I} + o(h)$,
+\end{enumerate}
+where $\bmu_i = \bmu(\tilde{\bs}_i)$ and $\be_{ij}$ is a unit-length vector from $\tilde{\bs}_i$ to $\tilde{\bs}_j$ \citep{xxx}. Heuristically, the limit of the instantaneous mean and variance of $\by_t$ must be the same as $\bs_t$. 
+
+We can construct movement rates to fit the previously mentioned convergence criteria and this has been proposed several times for raster grids where the neighbors are the cells to the north, south, east and west (rook). However we can extend the same type of rate specification to hexagon grids as well as queen neighborhoods (includes diagonal neighbors) for raster grids (see Appendix B). 
+
+Rook neighborhood raster grids and hexagon grids are similar in that the distance, $h$, is the same for all neighbors (4 and 6 respectively) and we can form the CTMC movement rates, 
+\[
+\lambda_{ij} = \frac{[\be_{ij}'\bmu_i]_+}{kh/2} + \frac{\sigma^2}{kh^2}, 
+\]
+where $[x]_+= \max(x, 0)$ and $k = 2$ for raster grids and $k=3$ for hexagon grids. One can verify the approximation by checking the convergence conditions (see Appendix B). Furthermore, if one can ensure that $\sigma^2 > h\be_{ij}'\bmu_i$ for all $i$ and $j$ then we can drop the positive-portion function ($[x]_+$) and use,
+\[
+\lambda_{ij} = \frac{\be_{ij}'\bmu_i}{kh} + \frac{\sigma^2}{kh^2}.
+\]
+This is more accurate for all $h$ but one must ensure that $\lambda_{ij}$ remains positive throughout the model fitting process, otherwise negative movement rates will result. Of course one can always make $h$ as small as necessary, but this may be impractical if the magnitude of the drift is large for even one grid cell. We can extend this results for queen neighborhood specification on raster grids by defining movement rates as,
+\[
+\lambda_{ij}= \frac{[\be_{ij}'\bmu_i]_+}{2h_{ij}} + \frac{\sigma^2}{4h_{ij}^2} 
+\]
+where $h_{ij}=h$ for rook neighbors and $h_{ij} = h\sqrt{2}$ for diagonal neighbors. Again, if we can ensure that $\sigma^2 > h_{ij} \be_{ij}'\bmu_i$ for all $i$ and $j$, we can use,
+\[
+\lambda_{ij}= \frac{\be_{ij}'\bmu_i}{4h_{ij}} + \frac{\sigma^2}{4h_{ij}^2}. 
+\]
+ 
+\section{CTMC parameter estimation}
+
+HMM specs
+
+\section{Simulated data analysis}
+
+Simulation from Langevin paper. 
+
+\section{False killer whale UDs}
+
+In this section, we will apply the modeling approach described herein to a telemetry dataset on endangered false killer whales (\emph{Pseudorca crassidens}) in the Hawaiian Islands \citep{baird2016lives}. This particular population is resident to the insular waters of the main Hawaiian Islands (includes Kaua`i/Ni`ihau, Oahu, Maui Nui, and Hawai`i Island) and is comprised of five social clusters, or groups of close family members and regular associates \citep{baird2008false, baird2019cooperative, baird2016lives, martien2019fidelity}. These whales are known to move quickly and frequently among island areas throughout their range, and previous studies have indicated that core areas of use vary among social clusters \citep{baird2010movements, baird2012range, baird2021bringing, baird2016lives}. Due to inherent challenges associated with tracking apex marine predators, this dataset is characterized by variable deployment durations and irregular location data streams. Considering these factors may drive start bias, as well as their expansive range, we deem this an appropriate dataset to empirically demonstrate the utility of predictive UDs. For the purposes of this assessment, we only focus on movements from the social cluster with the most comprehensive dataset (Cluster 1). 
+
+False killer whale satellite tag deployment methods have been described in detail elsewhere (see \citealt{baird2010movements, baird2012range}) so they are only briefly summarized here. Individuals were tagged with Argos transmitting SPOT5/SPOT6 ($n=28$) and SPLASH10 ($n=1$) tags during dedicated small boat survey efforts throughout the main Hawaiian Islands from 2007 through 2020 (\citealt{baird2012range,baird2021bringing, baird2016lives}; see \citealt{baird2013odontocete} for details on surveys). Deployment duration ranged from 2.1 days to 2014 days (median=43 days). Argos location data were processed through the Douglas-Argos Filter (accessed via Movebank; \citealt{kranstauber2011movebank,douglas2012moderating}) to remove erroneous locations based on unrealistic travel speeds and turning angles. Where dyads of tagged false killer whales exhibited correlated movements, the individual with the longest track duration was retained for analyses and the other excluded to avoid pseudoreplication following \citet{baird2012range}. This dataset includes five individuals that were satellite tagged twice during the study period; trajectories during each deployment were non-similar and thus considered independent. The final analytical dataset consisted of 24 trajectories and 11,795 filtered Argos locations. 
+
+\section{Discussion}
+
+
+The key assumption here is that the cell pair specific movement rate is symmetric which implies that one can not form the model with gradient-based covariates such as used by \cite{Hanks:2015aa} and \cite{wilsonestimating}. These models are more similar to the resource selection function (RSF) models of \cite{Johnson:2008kx, Johnson:2013fk}. Also, because the model was built on a defined set of cells, if it is changed, for example, the resolution of a raster grid is increased, it is not apparent how the parameters relate to each other. If the grid is fixed based on habitat covariates, then this is not an issue, but if there is some flexibility in how the set of cells is determined this may be a issue. In the next section we can form models using a continuous-space diffusion approximation. 
+
+behavior switching model
+
+
+
+\section*{Acknowledgments}
+The findings and conclusions in the paper are those of the authors and do not necessarily represent the views of the National Marine Fisheries Service, NOAA. Reference to trade names does not imply endorsement by the National Marine Fisheries Service, NOAA.
+
+
+\bibliography{ctmc_ud}
+
+\clearpage
+
+Tables.
+
+\clearpage
+
+Figures.
+
+\begin{figure}
+\caption{Test caption}
+\end{figure}
+
+
+\clearpage
+
+\appendix 
+
+\section{Proof of CTSMC limiting distribution}
+
+Using the Metropolis-Hastings (MH) algorithm we can show, by construction, that a Markov chain has a desired limiting distribution. The MH algorithm is designed to sample from a distribution $c^{-1}\alpha(x)$ when the proportionality constant is unknown. It accomplishes this feet by constructing a Markov process $q(X_t|X_{t-1})$ to move from state $X_{t-1}$ to $X_t$ such that, asymptotically, $X_t \sim c^{-1}\alpha(x)$ as $t\to \infty$. Full details of the MH algorithm can be found in \cite{chib1995understanding}, but the basic version proceeds as follows for desired limiting distribution, $c^{-1}\alpha(x)$, \bigskip
+\hrule
+\begin{enumerate}
+\item For current state $X_{t-1} = x$ propose $X_t = x'$ from probability distribution $q(x'|x)$.
+\item With probability 
+\[
+R_t = \min \left\{ \frac{\alpha(x')q(x|x')}{\alpha(x)q(x'|x)}, 1 \right\}
+\]
+set $X_t = x'$ else, set $X_t = x$. 
+\item Repeat. 
+\end{enumerate}
+\hrule \bigskip
+The acceptance step of the MH algorithm is the key feature the ensures, under certain general regularity conditions, that the distribution of $X_t \sim c^{-1}\alpha(x)$ as $t\to \infty$. The Markov process $q(\cdot|\cdot)$ need not necessarily have a limiting distribution, but the acceptance step will produce a chain with limiting distribution $c^{-1}\alpha(x)$. If $R_t \ge 1$ for all $t$, then no matter what state is proposed by $q(\cdot|\cdot)$, it is accepted, thus, it is the same as simply drawing a realization of the $q(\cdot|\cdot)$ process. In that case, the limiting distribution of $q(\cdot|\cdot)$ is $c^{-1}\alpha(x)$ by construction.
+
+We now return to the CTMC movement model in Section 3.1 to prove the resulting limiting distribution is as stated. Recall the proposed CTMC has movement rate function of the form,
+\[
+\lambda_{ij}(t) = \exp\{\beta_0 + a_i + b_j + c_{ij}\}.
+\]
+The embedded Markov chain, $\fG$, $g_0,g_1\dots,g_m,\dots$, for the CTMC movement process is defined by the transition probabilities \citep{xxx},
+\[
+q(g_m=j|g_{m-1}=i) = \lambda_{ij}/ \Lambda_i \text{ for } i \sim j,
+\]
+where $\Lambda_i = \sum_{j\in\fC_i}\lambda_{ij}$. All we need to do is construct an appropriate $\alpha_i$, $i=1,\dots n$, which is only a function of cell $i$ and no other cell $j$, such that
+\[
+R_m = \frac{\alpha_j\lambda_{ji}\Lambda_i}{\alpha_i\lambda_{ij}\Lambda_j} = 1 
+\]
+for all $m>0$ and all $(i,j)$ such that $i$ and $j$ are neighbors. Then, $\ba$ will be the limiting distribution of the embedded chain and we can use the result that the limiting distribution of the full CTMC is $u_i \propto \alpha_i/\Lambda_i$.
+
+We begin be evaluating the MH acceptance ratio for our CTMC model. After canceling like terms in the faction and rearranging advantageously, we obtain,
+\begin{equation}
+\begin{aligned}
+R_m &= \frac{\exp\{a_j + b_i\}\Lambda_i}{\alpha_i} \times \frac{\alpha_j}{\exp\{a_i + b_j\}\Lambda_j} \times \frac{\exp\{c_{ji}\}}{\exp\{c_{ij}\}} \\
+&= \frac{\exp\{b_i-a_i\}\Lambda_i}{\alpha_i} \times \frac{\alpha_j}{\exp\{b_j-a_j\}\Lambda_j} \times \frac{\exp\{c_{ji}\}}{\exp\{c_{ij}\}}
+\end{aligned}
+\end{equation}
+From this MH acceptance ratio, one can see that $R_m=1$ for all $m = 1,2,\dots$ and all $i\sim j$ if 
+\begin{enumerate}
+\item $\alpha_i \propto \exp\{b_i-a_i\}\Lambda_i$
+\item $c_{ij} = c_{ji}$
+\end{enumerate}
+Thus using the CTMC limiting distribution result, the UD of the CTMC defined by $\lambda_{ij}$ is $u_i \propto \exp\{b_i-a_i\}$.
+
+
+\section{SDE approximation results}
+
+$$
+\begin{aligned}
+\sum_{j\ne i} \left(\frac{\delta_{ij}}{kh/2} + \frac{\sigma^2_i}{kh^2}\right) h u_{ij} 
+&= 2k^{-1}\sum_{j\ne i} \delta_{ij}u_{ij} +  (hk)^{-1}\sigma^2_i\sum_{j\ne i}u_{ij} \\
+&=  2k^{-1}\sum_{j\ne i} \delta_{ij}u_{ij} \\
+&=  2k^{-1}\sum_{j\ne i,\ u_{ij}'\mu_i > 0} (u_{ij}'\mu_i)u_{ij} = \mu_i
+\end{aligned},
+$$ This results is due to the fact that, (a) $\sum_{j\ne i}u_{ij} = 0$ because the set of unit vectors is composed of 2 (raster) or 3 (hexagon) pairs of vectors where $u_{ij} = -u_{ij'}$, thus the sum over all the directional vectors is the zero vector. The equality in the last line is not as direct. To show it is true, we can rearrange the left side of the last line by noting $$
+\sum_{j\ne i,\ u_{ij}'\mu_i > 0} (u_{ij}'\mu_i)u_{ij} = U_i'U_i\mu_i,
+$$ where $U_i$ is a matrix with rows equal to the 3 (for hexagon grid) or 2 (for raster grids) $u_{ij}$ vectors contributing to the sum. These vectors will always be separated by $\pi/3$ (hexagon) or $\pi/2$ (raster) radians. This is because $u'\mu_i \ge 0$ if it lies within the span of $\mu_i$ rotated by $\pm \pi/2$ radians. Therefore, we will begin with the hexagon case and the assumption that $\mu_i$ lies in the first quadrant, Thus going in a counterclockwise direction, $$
+U = \left[ 
+\begin{array}{cc}
+1 & 0 \\
+1/2 & \sqrt{3}/2 \\
+-1/2 & \sqrt{3}/2 
+\end{array}
+\right]
+$$. From which we obtain, $U'U = (3/2)I$. Now if $\mu_i$ lies in any other quadrant, all we need to do is rotate the $U$ matrix appropriately with the standard rotation matrix $R_\theta$, which gives, $U_i'U_i = R_\theta U' U R_\theta = (3/2)I$ because $R_\theta R_\theta' = I$. Thusm for any $\mu_i$, $U_i'U_i = (3/2)I$. In the raster case, this has already been discussed in the literature many times, but we can show it in the first quadrant noting that, $$
+U = \left[ 
+\begin{array}{cc}
+1 & 0 \\
+0 &1 
+\end{array}
+\right].
+$$ Following the same reasoning we obtain $U_i'U_i = I$ for any $\mu_i$.
+
+Going back to the original condition 1 check, $$
+\begin{aligned}
+\sum_{j\ne i} \left(\frac{\delta_{ij}}{kh/2} + \frac{\sigma^2_i}{kh^2}\right) h u_{ij} &=  2k^{-1}\sum_{j\ne i,\ u_{ij}'\mu_i > 0} (u_{ij}'\mu_i)u_{ij} \\
+&= 2k^{-1}U_i'U_i\mu_i \\
+&= \mu_i \text{ if } k = 3 \text{ (hexagon) or } 2 \text{ (raster) }
+\end{aligned},
+$$
+
+Now, we will proceed to condition (2). $$
+\begin{aligned}
+\sum_{j\ne i} q_{ij} h^2 u_{ij}u_{ij}' &= \sum_{j\ne i} \left(\frac{\delta_{ij}}{kh/2} + \frac{\sigma^2_i}{kh^2}\right) h^2 u_{ij}u_{ij}' \\
+&=  (2h/k)\sum_{j\ne i,\ u_{ij}'\mu_i >0} \delta_{ij}u_{ij}u_{ij}' + (\sigma^2_i/k) \sum_{j\ne i} u_{ij}u_{ij}'\\
+&= (h/k)\sum_{j\ne i,\ u_{ij}'\mu_i >0} 2\delta_{ij}u_{ij}u_{ij}' + \sigma^2_i I \\
+&=  \sigma^2_i I + (h/k)M_i.
+\end{aligned}
+$$ The fact that $\sum_{j\ne i} u_{ij}u_{ij}' = kI$ can be verified for a given set of neighbors, then a rotation of the coordinates will result in the same calculation. So, the second order property of the CTMC $Y(t)$ are not equal to the SDE $X(t)$, but it does converge in the limit as $h\to 0$, satisfying the condition. The dispersion of $Y(t)$ will be greater than that of $X(t)$ and it will depend on the magnitude and/or direction of the drift vector $\mu_i$ and its location relative to the $u_{ij}$ for which $\delta_{ij} >0$. One can see this by noting that $\sum_{j\ne i} \delta_{ij}u_{ij}u_{ij}'$ is positive semi-definite. $$
+x'M_ix =  \sum_{j\ne i,\ u_{ij}'\mu_i >0} \delta_{ij} x'u_{ij}u_{ij}'x \ge 0
+$$ because $u_ij$ are unit vectors the eigen values of $u_{ij}u_{ij}'$ are 1 and 0, thus, $u_{ij}u_{ij}'$ is positive semi-definite and $\delta_{ij} \ge 0$ by definition. For a raster grid, the dispersion of $Y(t)$ has a cleaner form, $M_i$ is a diagonal matrix with the absolute values of $\mu_i$ on the diagonal.
+
+There is an alternative formulation of the CTMC rate matrix that will result in exact equivalence. If we simple set $\delta_{ij} = u_{ij}'\mu_i$ rather than taking only the positive elements we can form the CTMC movement rates $$
+q_{ij} = \left\{
+\begin{array}{ll}
+\frac{u_{ij}'\mu_i}{kh} + \frac{\sigma^2_i}{kh^2} & \text{for } i\ne j \text{ and } i \sim j. \\
+-\sum_{j\ne i} q_{ij} & i = j \\
+0 & \text{elsewise}
+\end{array}
+\right.,
+$$ where, now $k=2$ and 3 for raster and hexagon grids respectively. When we check condition (1), we still get $$
+\sum_{i\ne j} q_{ij}hu_{ij} = \mu_i.
+$$ But now, when we check condition (2), we obtain, $$
+\sum_{i\ne j} q_{ij}h^2u_{ij}u_{ij}' = \sigma_i^2I.
+$$ This results because we retain both the positive and negative $u_{ij}'\mu_i$. There will be $k$ pairs of the same value, one positive, one negative. So, this begs the question, why not use this version from the beginning. The problem is that if $\mu_i$ is very large, then for some $j$, $u_{ij}'\mu_i$ might be substantially negative, resulting in a $q_{ij}$ that is negative. In parameter optimization routines if one can constrain the parameters such that $\sigma^2_i/(h|u_{ij}'\mu_i|) > 1$ for all $i,j$, then this approximation would be the best. In theory, this can always be fixed by making $h$ as small as necessary, but that may not be practical if $\mu_i$ dominates $\sigma^2_i$ by a large amount.
+
+Using the results so to this point, we can expand the CTMC approximation rate matrix for rasters by using the queen's neighborhood structure and allowing movement to diagonal cells as well. These weights would be $$
+q_{ij} = \left\{
+\begin{array}{ll}
+\frac{\delta_{ij}}{kh/2} + \frac{\sigma^2_i}{kh^2} & \text{for } i\ne j \text{ and cells are rook neighbors} \\
+\frac{\delta_{ij}}{kh/\sqrt{2}} + \frac{\sigma^2_i}{2kh^2} & \text{for } i\ne j \text{ and cells are queen neighbors} \\
+-\sum_{j\ne i} q_{ij} & i = j \\
+0 & \text{elsewise}
+\end{array}
+\right.,
+$$ The specification for queen neighbors is exactly the same we just need to adjust for the fact the distance to the centroid of the diagonal cells is $\sqrt{2}h$ versus $h$ for the NSEW neighbors. In addition, for the queen neighborhood rates we set $k=4$ because there are 4 symmetric movement axes and by using only the positive drift terms we are cutting the number of terms in the sums down by $1/2$. Again, we could use all 8 values of $u_{ij}'\mu_i$ we get exact correspondence between the first and second order properties.
+
+
+
+\end{document}
+
